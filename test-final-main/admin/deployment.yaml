@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-final
+  labels:
+    app: test-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test-deploy
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: test-deploy
+        tier: backend
+    spec:
+      containers:
+        - image: us-central1-docker.pkg.dev/winter-cogency-307316/test-registry/test:1.0.0
+          name: test
+          ports:
+            - containerPort: 3000
+              name: test-deploy
+          env:
+            - name: TOKEN_SECRET
+              value: 09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611
+            - name: API_KEY
+              value: 2f5ae96c-b558-4c7b-a590-a501ae1c3f6c
